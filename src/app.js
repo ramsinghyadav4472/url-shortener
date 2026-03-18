@@ -4,11 +4,25 @@ const { nanoid } = require('nanoid');
 const { pool, initDb } = require('./db');
 const redis = require('./cache');
 const client = require('prom-client');
+const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// ------------------------------------------------------------------
+// RATE LIMITING SETUP
+// ------------------------------------------------------------------
+// Limit each IP to 100 requests per 15 minutes roughly.
+// This prevents database spamming and basic DDoS attacks on URL creation.
+const createUrlLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window`
+  message: { error: 'Too many URLs created from this IP, please try again after 15 minutes' },
+  standardHeaders: true, 
+  legacyHeaders: false,
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -52,7 +66,7 @@ app.get('/health', (req, res) => {
 });
 
 // 2. POST /shorten - Create a short URL
-app.post('/shorten', async (req, res) => {
+app.post('/shorten', createUrlLimiter, async (req, res) => {
   const { longUrl } = req.body;
   if (!longUrl) {
     return res.status(400).json({ error: 'URL is required' });
