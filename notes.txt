@@ -1,0 +1,57 @@
+# URL Shortener DevOps Project - Production Notes
+
+## Phase 1: Basic Application Logic
+- **Goal**: Built a URL shortening API using Node.js, PostgreSQL, and Redis.
+- **Key Pattern**: Implemented the **Cache-Aside (Read-Aside)** pattern.
+- **DevOps Insight**: Added a `/health` endpoint for Kubernetes probes.
+
+### ❓ Interview Scenarios:
+**Q**: Why use Redis if we already have PostgreSQL?
+**A**: Redis provides <1ms lookups for redirects, protecting the DB from high-traffic bottlenecks.
+
+---
+
+## Phase 2: Dockerization
+- **Goal**: Containerize the application and dependencies.
+- **Key Practices**: Multi-Stage Builds, Docker Compose with healthchecks.
+
+---
+
+## Phase 3: Kubernetes Deployment
+- **Goal**: Move to production-grade orchestration.
+- **Key Concepts**: StatefulSets (for DB), Probes (Liveness/Readiness), Resource Limits.
+
+---
+
+## Phase 4: CI/CD Pipeline
+- **Goal**: Automate "Build → Test → Push".
+- **Tool**: GitHub Actions.
+- **Workflow**:
+  1. **Test**: Run unit tests (`npm test`) on every push.
+  2. **Build**: Create a Docker image using the multi-stage Dockerfile.
+  3. **Push**: Upload to Docker Hub with a Commit SHA tag.
+
+### 🧪 Manual "Dry Run" of the CI/CD Pipeline:
+Before the automation takes over, you can do this manually to see it work:
+
+1. **Login to Docker Hub**:
+   ```bash
+   docker login
+   ```
+
+2. **Build the Image**:
+   ```bash
+   docker build -t <your-username>/url-shortener:v1.0.0 .
+   ```
+
+3. **Push to Docker Hub**:
+   ```bash
+   docker push <your-username>/url-shortener:v1.0.0
+   ```
+
+### ❓ Interview Scenarios:
+**Q**: Why tag Docker images with a Git Commit SHA instead of `latest`?
+**A**: Traceability and safe rollbacks. You know exactly which code is in a container.
+
+**Q**: What is the "CI" in CI/CD?
+**A**: **Continuous Integration**. It's the practice of frequently merging code changes into a central repository, where automated builds and tests are run to catch bugs early before they reach production.
