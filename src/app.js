@@ -3,6 +3,7 @@ const cors = require('cors');
 const { nanoid } = require('nanoid');
 const { pool, initDb } = require('./db');
 const redis = require('./cache');
+const client = require('prom-client');
 require('dotenv').config();
 
 const app = express();
@@ -13,6 +14,37 @@ const PORT = process.env.PORT || 3000;
 
 // Initialize Database
 initDb();
+
+// ------------------------------------------------------------------
+// PROMETHEUS METRICS SETUP
+// ------------------------------------------------------------------
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({ register: client.register });
+
+const httpRequestDurationMicroseconds = new client.Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route', 'code'],
+  buckets: [0.1, 0.3, 0.5, 0.7, 1, 3, 5, 7, 10]
+});
+
+app.use((req, res, next) => {
+  const end = httpRequestDurationMicroseconds.startTimer();
+  res.on('finish', () => {
+    end({ 
+      route: req.route ? req.route.path : req.path, 
+      code: res.statusCode, 
+      method: req.method 
+    });
+  });
+  next();
+});
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
+// ------------------------------------------------------------------
 
 // 1. Health check endpoint (MUST be before generic routes)
 app.get('/health', (req, res) => {
