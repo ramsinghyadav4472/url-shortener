@@ -1,4 +1,4 @@
-# 🚀 Production-Ready URL Shortener
+# 🚀  URL Shortener
 
 A scalable, high-performance URL shortener system designed with DevOps best practices. Built to demonstrate containerization, orchestration, CI/CD, and monitoring.
 
