@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: url-shortener-app:latest # Note: In real life, use a registry path like your-hub-user/url-shortener-app:v1
+        image: ramsinghyadav4472/url-shortener:latest
         ports:
         - containerPort: 3000
         env:
