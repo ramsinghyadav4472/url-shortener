@@ -11,8 +11,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve premium frontend static files
+app.use(express.static('public'));
+
 // ------------------------------------------------------------------
 // RATE LIMITING SETUP
+
 // ------------------------------------------------------------------
 // Limit each IP to 100 requests per 15 minutes roughly.
 // This prevents database spamming and basic DDoS attacks on URL creation.

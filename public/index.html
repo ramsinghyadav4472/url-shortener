@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NanoURL | Premium Shortener</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="background-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <main class="container">
+    <header>
+      <h1 class="logo">Nano<span>URL</span></h1>
+      <p class="subtitle">Lightning fast. Infinitely scalable. Built on Kubernetes.</p>
+    </header>
+
+    <div class="glass-card">
+      <form id="shorten-form">
+        <div class="input-group">
+          <input type="url" id="long-url" placeholder="Paste your very long URL here..." required>
+          <button type="submit" id="submit-btn">Shorten</button>
+        </div>
+      </form>
+
+      <div id="result-container" class="hidden">
+        <p>Your short link is ready:</p>
+        <div class="result-box">
+          <a href="#" id="short-url" target="_blank">http://localhost:3000/xyz</a>
+          <button id="copy-btn" title="Copy to clipboard">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2v-2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="error-container" class="hidden error"></div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
