@@ -1,6 +1,6 @@
 <div align="center">
   
-# 🚀 NanoURL: Production-Grade URL Shortener
+# 🚀 NanoURL: URL Shortener
 **A Highly Available, Scalable, and Observable Microservice Architecture**
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/aarnav2/url-shortener/main.yml?style=for-the-badge&logo=github)](https://github.com/aarnav2/url-shortener/actions)
@@ -39,11 +39,6 @@ Designed to handle massive read-heavy traffic spikes, the system utilizes a **Ca
 | **Cloud Target** | AWS (EKS, RDS, ElastiCache, ALB) |
 
 ---
-
-## 🏗️ System Architecture
-
-*(Placeholder for Architecture Diagram)*
-![Architecture Diagram](https://via.placeholder.com/800x400.png?text=System+Architecture+Diagram)
 
 ### Traffic Flow:
 1. **Client** hits the AWS Application Load Balancer.
@@ -141,21 +136,7 @@ The project utilizes a fully automated CI/CD pipeline triggered on every push an
 - **Endpoint:** `GET /health` (Used by K8s Liveness/Readiness Probes)
 - **Endpoint:** `GET /metrics` (Scraped exclusively by Prometheus)
 
----
 
-## 📸 Screenshots & Demo
-
-*(Placeholder for Application UI Screenshot)*
-<br>
-![Application UI](https://via.placeholder.com/800x400.png?text=Premium+Glassmorphism+UI+Screenshot)
-<br><br>
-
-*(Placeholder for Grafana Dashboard Screenshot)*
-<br>
-![Grafana Dashboard](https://via.placeholder.com/800x400.png?text=Grafana+Traffic+Monitoring+Dashboard)
-<br><br>
-
----
 
 <div align="center">
   <i>Architected with ❤️ for Production Environments.</i>
